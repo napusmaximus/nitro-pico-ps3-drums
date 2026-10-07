@@ -16,6 +16,10 @@ Reference: Santroller commit `272bae8d28e17e9886e73344adeb8788a062eef4`. Relevan
 
 The firmware's outer device descriptor uses USB 2.0, EP0=64, one configuration, bDeviceClass=0; configuration is bus-powered, requests 100mA and does not advertise remote wake. Project-specific strings replace Santroller branding. Santroller's larger composite/detection framework, WinUSB compatible-section support, configurator commands, Bluetooth, other instruments and DS3-specific features are omitted. Therefore **the report descriptor is byte-identical; the whole multi-device Santroller USB implementation is not claimed identical**. This firmware fixes PS3 drum mode, avoiding auto-detection branches.
 
+## Input transport boundary
+
+The firmware receives UART/DIN MIDI only. A USB-only module requires the external host described in [USB-only setup](usb-midi-setup.md). Its DIN output feeds the unchanged receiver/parser; no USB-MIDI host driver is included in this firmware. The PS3 device descriptor remains unchanged, and the additional host's compatibility/latency require hardware testing.
+
 ## Input bytes
 
 | Offset | Meaning |

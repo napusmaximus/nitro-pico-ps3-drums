@@ -1,5 +1,7 @@
 # Isolated 5-pin MIDI IN wiring
 
+**USB-only module:** the Pico still requires this isolated DIN receiver. Use [USB-only setup](usb-midi-setup.md) to connect module USB to a separately powered standalone USB-MIDI host, then **host DIN OUT → adapter DIN IN**. References below to Nitro MIDI OUT apply to host DIN OUT on that route. Do not connect module USB directly to Pico. Record the host model and verify actual pad notes before PS3 testing.
+
 This is a conventional current-loop MIDI receiver based on [MIDI Association CA-033, figure 2](https://midi.org/wp-content/uploads/wpforo/default_attachments/1709416667-ca33-MIDI-10-Electrical-Specification-Update.pdf), with a 6N138 output powered at 5V and pulled up separately to the Pico's 3.3V rail. The 6N138's output is an open collector. **Do not pull GP1 up to 5V.** A 6N138 should not be assumed specified for a 3.3V VCC supply.
 
 ## Schematic (logical connections, not connector geometry)

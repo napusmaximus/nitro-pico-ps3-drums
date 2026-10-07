@@ -1,5 +1,7 @@
 # First boot and acceptance test: unmodified PS3
 
+**USB-only module:** the Pico still requires this isolated DIN receiver. Use [USB-only setup](usb-midi-setup.md) to connect module USB to a separately powered standalone USB-MIDI host, then **host DIN OUT → adapter DIN IN**. References below to Nitro MIDI OUT apply to host DIN OUT on that route. Do not connect module USB directly to Pico. Record the host model and verify actual pad notes before PS3 testing.
+
 Status: **not executed on hardware**. Use one row per game/version and preserve failures as well as passes. Required: assembled adapter, Pico, Nitro Mesh, 5-pin cable, USB data cable, stock PS3, original game and a normal PS3 controller. Optional: six navigation switches, scope/logic analyzer, 3.3V USB-UART adapter, PC for raw USB captures.
 
 ## 1. Record the setup

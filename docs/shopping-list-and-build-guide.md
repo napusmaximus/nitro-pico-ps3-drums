@@ -6,6 +6,8 @@ This guide takes you from a box of parts to testing an Alesis Nitro Mesh drum ki
 
 You do not need to compile software for this tutorial. The three UF2 files are already in this repository. A **UF2** is the firmware file you copy onto the Pico to tell it what to do.
 
+> **Before buying: does the actual module have a round 5-pin MIDI OUT?** This guide's receiver takes DIN MIDI. If the module has only USB MIDI, read [USB-only module setup](usb-midi-setup.md) first. You need an additional **separately powered standalone USB-MIDI host with DIN OUT** and the module's USB data cable. Keep the DIN receiver parts below; the host feeds that receiver. The supplied Pico UF2 does not accept USB MIDI directly.
+
 ## 1. Shopping list: what to buy
 
 You also need your existing Nitro Mesh kit and its power adapter, a stock PS3, a Rock Band game, a normal DualShock/Sixaxis controller, and a computer for downloading and flashing firmware. A computer is not required during normal play.
@@ -29,6 +31,12 @@ Buy through a reputable electronics distributor or an official reseller where po
 | 1 | **USB-A to Micro-USB DATA cable** | Powers Pico and carries controller data to the PS3; also used for flashing | `USB A to micro USB data sync cable` |
 
 For a fully solderless start, obtain the DIN socket/breakout **already assembled**. A passive breakout only brings the five DIN contacts to labeled terminals; it must not contain a MIDI converter or powered receiver. Check that each terminal number corresponds to the DIN contact number. If you buy a bare solder-lug socket, ask someone experienced to attach insulated leads and label pins 4 and 5 before starting. Jumper sockets pushed loosely onto solder lugs are not dependable connections. Use appropriate wire ends for the screw terminals; do not force oversized jumper pins into them. A wire stripper is useful if the terminal connection needs bare wire.
+
+### Extra required purchases if the module is USB-only
+
+Add one **standalone class-compliant USB-MIDI host with 5-pin DIN OUT**, its manufacturer-specified power supply, and one **USB-A to USB-B data cable** if the module has a square USB-B port. Search `standalone USB MIDI host DIN MIDI OUT` and `USB A to USB B data printer cable`. Confirm the actual module connector and host compatibility before ordering. The [USB-only setup guide](usb-midi-setup.md) gives a manufacturer-documented host example, cable/power diagram and testing sequence.
+
+These additions do not replace the Pico, optocoupler, DIN socket or DIN cable. A normal computer USB MIDI interface cannot stand in for the host. The extra host converts the module's USB messages into the DIN signal this circuit accepts.
 
 ### Strongly recommended tools
 
@@ -167,7 +175,7 @@ Use the **actual manufacturer's datasheet**, **numbers molded into the connector
 ## 3. Flash the Pico first, before building the circuit
 
 1. Leave the Pico disconnected from the breadboard and all MIDI/serial wiring.
-2. Download **[dist/standard/nitro_ps3.uf2](../dist/standard/nitro_ps3.uf2)**. On GitHub, open the file and use **Download raw file**. Do not save the web page as HTML. Because this repository is private, sign in with an account that has access. Alternatively, download the repository ZIP, extract it and find the file under `dist/standard`.
+2. Download **[dist/standard/nitro_ps3.uf2](../dist/standard/nitro_ps3.uf2)**. On GitHub, open the file and use **Download raw file**. Do not save the web page as HTML. This repository is public; no GitHub account or Git installation is required to download it. Alternatively, download the repository ZIP, extract it and find the file under `dist/standard`.
 3. Disconnect the Pico USB cable if attached.
 4. Press and hold the little **BOOTSEL** button on the Pico.
 5. While holding BOOTSEL, connect the Micro-USB end to Pico and the other end to your computer. The cable must carry **DATA**, not just charging power.
@@ -275,7 +283,9 @@ If any measurement is wrong, disconnect USB before changing anything. Recheck re
 
 ## 6. Connect the Alesis Nitro Mesh
 
-With the Pico unplugged and Nitro switched off, plug the male-to-male MIDI cable into the module's **MIDI OUT**, then into your new female DIN socket. The DIY socket is the adapter's **MIDI IN**.
+**For a USB-only module:** follow [USB-only setup](usb-midi-setup.md): module USB → separately powered USB-MIDI host → **host MIDI OUT** → DIY DIN IN. In subsequent steps, references to the module's DIN MIDI OUT mean the **host's DIN OUT** for this route. Do not try to connect module USB directly to Pico. Keep the same circuit and voltage checks.
+
+**For a module with DIN MIDI OUT:** with the Pico unplugged and Nitro switched off, plug the male-to-male MIDI cable into the module's **MIDI OUT**, then into your new female DIN socket. The DIY socket is the adapter's **MIDI IN**.
 
 ```text
 Alesis Nitro Mesh MIDI OUT   (NOT the module's MIDI IN)
@@ -360,6 +370,8 @@ If the row-24 ground node fills up, extend it with a jumper from a free hole (fo
 
 ## 9. Final Alesis → PS3 connection
 
+The diagram below is for a module with DIN OUT. For USB-only modules, replace its first link with **module USB → USB-MIDI host → host DIN OUT**. The complete USB-route diagram and its **three separate power sources** are in [USB-only setup](usb-midi-setup.md). The host uses its own specified supply; never power it from Pico pins.
+
 ```text
 [Alesis Nitro Mesh] <--- its own Alesis power adapter
         |
@@ -385,7 +397,7 @@ If the row-24 ground node fills up, extend it with a jumper from a free hole (fo
 [Rock Band]
 ```
 
-Power comes from **two separate places**: the Nitro uses its own adapter; PS3 USB powers Pico, whose VBUS and 3V3 outputs supply the receiver as wired. No breadboard power module or external Pico power supply is needed. The debug adapter never powers the circuit. Keep the board where it cannot be bumped by drumsticks or pedals.
+For the direct-DIN route shown above, power comes from **two separate places**: the Nitro uses its own adapter; PS3 USB powers Pico, whose VBUS and 3V3 outputs supply the receiver as wired. No breadboard power module or external Pico power supply is needed. The debug adapter never powers the circuit. Keep the board where it cannot be bumped by drumsticks or pedals.
 
 ## 10. First PS3 test: standard firmware only
 
@@ -393,7 +405,7 @@ Use **[dist/standard/nitro_ps3.uf2](../dist/standard/nitro_ps3.uf2)**. **Do not 
 
 1. Flash the standard UF2 using BOOTSEL, then disconnect from the computer.
 2. Turn Nitro and PS3 off; disconnect Pico USB. Recheck that the voltage pre-flight passed.
-3. Connect Nitro **MIDI OUT** to adapter **MIDI IN** with the MIDI cable.
+3. Connect Nitro **MIDI OUT** to adapter **MIDI IN** with the MIDI cable. For USB-only modules, instead connect module USB to the separately powered USB-MIDI host and its **DIN OUT** to adapter DIN IN; follow the host manual for startup.
 4. Power Nitro with its own adapter; stop songs/demos/metronome.
 5. Connect Pico directly to a PS3 USB port using the Micro-USB data cable.
 6. Boot PS3. Pico gets USB power when that port is powered.
@@ -469,6 +481,7 @@ Disconnect power before moving wires. Change one thing at a time and write down 
 | RPI-RP2 never appears | Disconnect, hold BOOTSEL **before** connecting, release after connection. Try a known data cable and another computer USB port. Test the Pico alone with all circuit wires disconnected. |
 | Firmware copies but computer sees no controller | Reconnect without BOOTSEL; confirm the file came from `dist/standard`, not an HTML download or ZIP. Check VID/PID in section 3 and try a different data cable. |
 | No serial text at all | Confirm **debug** firmware, correct USB-TTL port, adapter powered through its own USB, GP4→RX and GND→GND, 115200 8-N-1/no flow control. Pico's own USB is not the serial port. |
+| USB-only module produces no notes through the host | Check the standalone host's own power, module USB data cable, documented device-detection indicator, USB-to-DIN routing, and **host DIN OUT** connection. A passive cable or generic computer USB interface is not a USB-MIDI host. |
 | Statistics appear but no MIDI events | Check Nitro **MIDI OUT**, cable, actual DIN 4/5 identities and mirrored views, 6N138 notch orientation, approximately 5V at pin 8, GND at pin 5, GP1 idle about 3.3V, and diode stripe toward pin 2. Measure only with the prescribed method; unplug before fixing. |
 | GP1 measures near 5V | **Disconnect immediately.** Check that the 1kΩ resistor starts at Pico pin 36/3V3, not pin 40/VBUS; check for bridged rows. Do not proceed to PS3. |
 | Garbled serial text | Check 115200 baud and adapter signal-level documentation; ensure a common **Pico-side** ground. Do not add DIN/Nitro ground. |
@@ -482,6 +495,7 @@ Disconnect power before moving wires. Change one thing at a time and write down 
 
 ## 16. Complete checklist
 
+- [ ] Actual module model and DIN-vs-USB connection identified; USB-only route has a compatible separately powered host and USB data cable.
 - [ ] Correct original **RP2040 Pico H** purchased, not Pico 2.
 - [ ] Standard UF2 downloaded as a binary file and flashed.
 - [ ] USB device enumerates on the PC with VID 12BA / PID 0210.
@@ -494,7 +508,7 @@ Disconnect power before moving wires. Change one thing at a time and write down 
 - [ ] 3.3V supply correct at Pico physical 36.
 - [ ] GP1 idle about 3.3V, never pulled up to 5V.
 - [ ] No MIDI signal, DIN pin 2/shield, or Nitro ground connected directly to Pico GND.
-- [ ] Nitro MIDI OUT → adapter MIDI IN.
+- [ ] Nitro MIDI OUT → adapter MIDI IN, or module USB → USB-MIDI host → host DIN OUT → adapter DIN IN.
 - [ ] Debug MIDI seen for every applicable pad (or explicitly mark this optional diagnostic as not performed).
 - [ ] UART/error counters zero under testing; any host-dependent queue overflow investigated.
 - [ ] Standard UF2 reflashed after debugging.
