@@ -1,0 +1,7 @@
+{
+ "pico-sdk": {"url":"https://github.com/raspberrypi/pico-sdk.git", "revision":"a1438dff1d38bd9c65dbd693f0e5db4b9ae91779", "version":"2.2.0"},
+ "tinyusb": {"revision":"86ad6e56c1700e85f1c5678607a762cfe3aa2f47"},
+ "picotool": {"url":"https://github.com/raspberrypi/picotool.git", "revision":"a7eb3988f0645239185fadb4e25d8279478c2dbb", "version":"2.2.0"},
+ "santroller": {"url":"https://github.com/Santroller/Santroller.git", "revision":"272bae8d28e17e9886e73344adeb8788a062eef4", "note":"vendored protocol reference and macro subset"},
+ "arm-toolchain": {"version":"14.2.Rel1", "macos_arm64_url":"https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-darwin-arm64-arm-none-eabi.tar.xz", "macos_arm64_sha256":"c7c78ffab9bebfce91d99d3c24da6bf4b81c01e16cf551eb2ff9f25b9e0a3818"}
+}
