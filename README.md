@@ -4,6 +4,10 @@ Open-source Alesis Nitro Mesh **5-pin MIDI OUT → Raspberry Pi Pico RP2040 → 
 
 **BUILD VERIFIED. HARDWARE NOT VERIFIED.** The standard, debug, and experimental Pro builds are intended for physical testing. Compilation and protocol comparison are not proof that a particular PS3/game revision will accept this adapter. See [verification](docs/verification.md) and the [first-boot test plan](docs/ps3-test-plan.md).
 
+## New to electronics?
+
+Start with the complete **[Shopping List and Beginner Build Guide](docs/shopping-list-and-build-guide.md)**. It explains exactly what to buy, how to identify the parts, flash the Pico, assemble the isolated MIDI receiver, check voltages, connect Nitro to PS3, and test Rock Band. It includes a numbered breadboard layout, optional serial diagnostics, troubleshooting and a final checklist.
+
 ## Flash first
 
 Use **[dist/standard/nitro_ps3.uf2](dist/standard/nitro_ps3.uf2)** for initial testing. ELF, BIN, checksums and descriptor audit files are beside it. Hold the Pico's BOOTSEL button while connecting USB to your computer, release when `RPI-RP2` appears, and copy the UF2 onto that drive. The drive disconnects as the Pico reboots. Then disconnect from the computer and connect the Pico's USB port to the PS3. Repeat BOOTSEL to restore/change firmware; no programmer is needed. This image targets the original RP2040 Pico, not Pico 2.
